@@ -1,0 +1,87 @@
+YouTube Shorts Uploader - Documentation
+=========================================
+
+Project Overview:
+-----------------
+This project automates the process of downloading a YouTube video, splitting it into vertical 9:16 segments (Shorts),
+adding header text (e.g., "Part 1", "Part 2", etc.), and uploading them as YouTube Shorts.
+The project is organized into separate modules for downloading/splitting, uploading, and utility functions.
+
+Repository Structure:
+---------------------
+YouTubeShortsUploader/
+├── client_secrets.json         # (Not included; see instructions below on how to obtain this file)
+├── main.py                     # Main script that orchestrates the workflow (download, split, upload)
+├── download_split.py           # Module for downloading and splitting videos into Shorts
+├── upload_shorts.py            # Module for authenticating with YouTube and uploading Shorts
+├── utils.py                    # Utility functions (e.g., check_ffmpeg, sanitize_filename)
+├── requirements.txt            # List of required Python packages
+└── docs.txt                    # This documentation file
+
+Installation Instructions:
+--------------------------
+1. Clone the repository:
+   git clone https://github.com/yourusername/YouTubeShortsUploader.git
+   cd YouTubeShortsUploader
+
+2. Install Python dependencies:
+   pip install -r requirements.txt
+
+3. Install FFmpeg:
+   - Windows: Download FFmpeg from https://ffmpeg.org/download.html, extract it, and add the "bin" folder to your system PATH.
+   - macOS/Linux: Use your package manager (e.g., on macOS: brew install ffmpeg).
+
+Google Cloud Console Setup (OAuth & YouTube Data API):
+-------------------------------------------------------
+1. Create a Google Cloud Project:
+   - Visit https://console.cloud.google.com/
+   - Click on the project dropdown and select "New Project".
+   - Enter a project name (e.g., "YouTubeShortsUploader") and click "Create".
+
+2. Enable the YouTube Data API v3:
+   - In the Cloud Console, navigate to APIs & Services > Library.
+   - Search for "YouTube Data API v3" and click "Enable".
+
+3. Create OAuth 2.0 Credentials:
+   - Go to APIs & Services > Credentials.
+   - Click "Create Credentials" and choose "OAuth client ID".
+   - For Application type, select "Desktop App".
+   - Name your client (e.g., "YouTubeShortsUploader Client") and click "Create".
+   - Download the JSON file, rename it to "client_secrets.json", and place it in the root folder of the repository.
+
+4. Configure Authorized Redirect URIs:
+   - In the Credentials section, click on your newly created OAuth client and select "Edit".
+   - Under "Authorized redirect URIs", add:
+       http://localhost:8080/
+   - Save your changes.
+
+Usage Instructions:
+-------------------
+1. Run the main script:
+   python main.py
+
+2. When prompted, choose:
+   - "Y" to download a new video (you will need to enter a YouTube URL).
+   - "N" to use the latest video in the processed_videos folder.
+
+3. The script will:
+   a. Download (or select) the video.
+   b. Split the video into 29-second segments.
+   c. Force each segment into a vertical 9:16 format using FFmpeg filters.
+   d. Overlay header text (e.g., "Part 1", "Part 2", etc.) on each segment.
+   e. Save the processed segments in the "shorts" folder.
+   f. Authenticate with YouTube using your OAuth credentials.
+   g. Upload each processed short as a YouTube Short. 
+      (Ensure your clips are under 60 seconds and have a vertical aspect ratio; include "#Shorts" in titles/descriptions.)
+
+Additional Notes:
+-----------------
+- Do NOT commit your client_secrets.json file to a public repository.
+- Adjust titles, descriptions, and tags in the code as needed.
+- Monitor your API quota and upload limits in the Google Cloud Console.
+- If you encounter any issues with FFmpeg or OAuth authentication, refer to the respective documentation linked in the code.
+
+Enjoy using the YouTube Shorts Uploader, and feel free to contribute or customize it further!
+
+---------------------------------------------------------
+End of Documentation.
